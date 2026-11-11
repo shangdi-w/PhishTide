@@ -1,0 +1,12 @@
+# VPS 端：/opt/frp/frps.toml
+bindPort = 7000
+
+# 只让 frps 把映射端口绑在回环地址，Caddy 在同一台 VPS 上反代
+proxyBindAddr = "127.0.0.1"
+
+auth.method = "token"
+auth.token = "CHANGE_ME_TOKEN"
+
+log.to = "/var/log/frps.log"
+log.level = "info"
+log.maxDays = 7

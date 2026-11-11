@@ -1,0 +1,342 @@
+openapi: 3.0.3
+info:
+  title: PhishTide Admin API
+  version: "1.0"
+  description: >
+    钓鱼演练平台管理接口（核心端点）。除 /metrics 外均需管理员会话 Cookie
+    （phish_admin，登录 /__admin/login 获得）；响应中的密码/密钥默认脱敏或加密存储。
+servers:
+  - url: https://127.0.0.1:8443
+security:
+  - cookieAuth: []
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: phish_admin
+  schemas:
+    Error:
+      type: object
+      properties:
+        error: { type: string }
+    Target:
+      type: object
+      required: [email]
+      properties:
+        email: { type: string }
+        first_name: { type: string }
+        last_name: { type: string }
+        position: { type: string }
+        department: { type: string }
+    CampaignInput:
+      type: object
+      required: [name, email_template_id, landing_page_id, group_ids]
+      properties:
+        name: { type: string }
+        email_template_id: { type: integer, format: int64 }
+        email_template_b_id: { type: integer, format: int64 }
+        ab_split: { type: integer, minimum: 0, maximum: 100 }
+        landing_page_id: { type: integer, format: int64 }
+        group_ids:
+          type: array
+          items: { type: integer, format: int64 }
+        sending_profile_id: { type: integer, format: int64 }
+        link_ttl_hours: { type: integer }
+        link_once: { type: boolean }
+        ip_allow: { type: string }
+        ip_deny: { type: string }
+        seed_emails: { type: string }
+    GenericObject:
+      type: object
+      additionalProperties: true
+paths:
+  /__admin/api/overview:
+    get:
+      summary: 活动/群组/模板/落地页/发件配置概览
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/GenericObject" } } } }
+  /__admin/api/campaigns:
+    post:
+      summary: 创建活动
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: "#/components/schemas/CampaignInput" } } }
+      responses:
+        "200": { description: 创建成功 }
+        "400": { description: 参数错误, content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+  /__admin/api/campaigns/{id}:
+    get:
+      summary: 活动详情（含目标结果、提交、退信）
+      parameters: [{ name: id, in: path, required: true, schema: { type: integer } }]
+      responses:
+        "200": { description: OK }
+    delete:
+      summary: 移入回收站（软删除）
+      parameters: [{ name: id, in: path, required: true, schema: { type: integer } }]
+      responses:
+        "200": { description: 已移入回收站 }
+  /__admin/api/campaigns/{id}/targets:
+    post:
+      summary: 追加发送目标
+      parameters: [{ name: id, in: path, required: true, schema: { type: integer } }]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                emails: { type: string, description: 每行一个邮箱，可写 邮箱,部门 }
+                targets:
+                  type: array
+                  items: { $ref: "#/components/schemas/Target" }
+      responses:
+        "200": { description: "返回 added/skipped" }
+  /__admin/api/campaigns/{id}/schedule:
+    post:
+      summary: 创建定时发送任务（时间按北京时间理解）
+      parameters: [{ name: id, in: path, required: true, schema: { type: integer } }]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                scheduled_at: { type: string, description: RFC3339，可带 +08:00；留空立即 }
+                batch_size: { type: integer }
+                batch_delay_sec: { type: integer }
+      responses:
+        "200": { description: 任务已创建 }
+  /__admin/api/campaigns/{id}/send:
+    post:
+      summary: 发送或干跑活动
+      parameters: [{ name: id, in: path, required: true, schema: { type: integer } }]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: { dry_run: { type: boolean } }
+      responses:
+        "200": { description: 发送结果 }
+  /__admin/api/campaigns/{id}/submissions:
+    get:
+      summary: 某活动的提交记录
+      parameters: [{ name: id, in: path, required: true, schema: { type: integer } }]
+      responses:
+        "200": { description: OK }
+  /__admin/api/templates:
+    get: { summary: 模板列表, responses: { "200": { description: OK } } }
+    post:
+      summary: 新建/覆盖模板
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, subject, html]
+              properties:
+                name: { type: string }
+                subject: { type: string }
+                html: { type: string }
+                text: { type: string }
+      responses:
+        "200": { description: OK }
+  /__admin/api/templates/{id}:
+    delete: { summary: 删除模板（被活动引用时拒绝）, parameters: [{ name: id, in: path, required: true, schema: { type: integer } }], responses: { "200": { description: 已删除 }, "400": { description: 仍被引用 } } }
+  /__admin/api/pages:
+    get: { summary: 落地页列表, responses: { "200": { description: OK } } }
+    post: { summary: 新建落地页, responses: { "200": { description: OK } } }
+  /__admin/api/pages/import:
+    post:
+      summary: 导入 HTML 落地页
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, html]
+              properties:
+                name: { type: string }
+                html: { type: string }
+                error_message: { type: string }
+      responses:
+        "200": { description: OK }
+  /__admin/api/clone:
+    post:
+      summary: 克隆/反向代理站点
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, url]
+              properties:
+                name: { type: string }
+                url: { type: string }
+                proxy: { type: boolean }
+                static_form: { type: boolean }
+                error_message: { type: string }
+      responses:
+        "200": { description: OK }
+  /__admin/api/groups:
+    get: { summary: 目标组列表, responses: { "200": { description: OK } } }
+    post: { summary: 创建目标组, responses: { "200": { description: OK } } }
+  /__admin/api/groups/{id}/targets:
+    get: { summary: 组内目标, parameters: [{ name: id, in: path, required: true, schema: { type: integer } }], responses: { "200": { description: OK } } }
+  /__admin/api/profiles:
+    get: { summary: 发件账号列表（不含密码）, responses: { "200": { description: OK } } }
+    post: { summary: 新建/更新发件账号, responses: { "200": { description: OK } } }
+  /__admin/api/profiles/{id}/secret:
+    get:
+      summary: 显示已保存的 SMTP 密码（需管理员会话，操作会写审计日志）
+      parameters: [{ name: id, in: path, required: true, schema: { type: integer } }]
+      responses:
+        "200": { description: "{password}" }
+  /__admin/api/llm:
+    get: { summary: 读取 LLM 配置（key 不回传）, responses: { "200": { description: OK } } }
+    post: { summary: 保存 LLM 配置（Base URL/Key/模型/规划模型/温度）, responses: { "200": { description: OK } } }
+  /__admin/api/llm/models:
+    get:
+      summary: 用当前 Key 与 Base URL 拉取服务商支持的模型列表
+      responses:
+        "200": { description: "{models: []}" }
+        "502": { description: 服务商不可达或拒绝 }
+  /__admin/api/send-history:
+    get:
+      summary: 发送台账（活动删除后仍保留）
+      parameters:
+        - { name: query, in: query, schema: { type: string } }
+        - { name: campaign_id, in: query, schema: { type: integer } }
+        - { name: limit, in: query, schema: { type: integer, maximum: 200 } }
+        - { name: offset, in: query, schema: { type: integer } }
+      responses:
+        "200": { description: OK }
+  /__admin/api/suppressions:
+    get: { summary: 抑制名单, responses: { "200": { description: OK } } }
+    post:
+      summary: 加入抑制名单
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email: { type: string }
+                reason: { type: string, enum: [manual, hard_bounce, unsubscribe, complaint] }
+                note: { type: string }
+      responses:
+        "200": { description: OK }
+  /__admin/api/suppressions/delete:
+    post:
+      summary: 从抑制名单移除
+      requestBody:
+        content:
+          application/json:
+            schema: { type: object, properties: { email: { type: string } } }
+      responses:
+        "200": { description: OK }
+  /__admin/api/search:
+    get:
+      summary: 跨模块全文检索（会话/模板/页面/活动/台账/提交，已脱敏）
+      parameters:
+        - { name: q, in: query, required: true, schema: { type: string } }
+        - { name: limit, in: query, schema: { type: integer, maximum: 20 } }
+      responses:
+        "200": { description: OK }
+  /__admin/api/chat/stream:
+    post:
+      summary: 控制台 Agent 流式对话（SSE）
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                session_id: { type: integer }
+                model: { type: string }
+                message: { type: string }
+                resume: { type: boolean, description: 确认后自动继续 }
+      responses:
+        "200": { description: text/event-stream }
+  /__admin/api/chat/sessions:
+    get: { summary: 会话列表, responses: { "200": { description: OK } } }
+    post: { summary: 新建会话, responses: { "200": { description: OK } } }
+  /__admin/api/chat/pending:
+    get:
+      summary: 当前会话待确认操作
+      parameters: [{ name: session_id, in: query, required: true, schema: { type: integer } }]
+      responses:
+        "200": { description: "{actions, confirms}" }
+  /__admin/api/chat/action/confirm:
+    post:
+      summary: 确认/取消待执行动作
+      requestBody:
+        content:
+          application/json:
+            schema: { type: object, properties: { id: { type: string }, session_id: { type: integer }, cancel: { type: boolean } } }
+      responses:
+        "200": { description: OK }
+  /__admin/api/chat/confirm:
+    post:
+      summary: 确认/取消发送
+      requestBody:
+        content:
+          application/json:
+            schema: { type: object, properties: { id: { type: string }, session_id: { type: integer }, cancel: { type: boolean } } }
+      responses:
+        "200": { description: OK }
+  /__admin/api/agent/jobs:
+    get: { summary: 后台任务列表, responses: { "200": { description: OK } } }
+    post:
+      summary: 入队后台任务
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [session_id, message]
+              properties:
+                session_id: { type: integer }
+                message: { type: string }
+                delay_minutes: { type: integer }
+      responses:
+        "200": { description: "{id}" }
+  /__admin/api/agent/jobs/{id}/cancel:
+    post:
+      summary: 取消后台任务
+      parameters: [{ name: id, in: path, required: true, schema: { type: integer } }]
+      responses:
+        "200": { description: OK }
+  /__admin/api/agent/jobs/{id}/retry:
+    post:
+      summary: 重试失败/已取消任务
+      parameters: [{ name: id, in: path, required: true, schema: { type: integer } }]
+      responses:
+        "200": { description: OK }
+  /__admin/api/agent/metrics:
+    get:
+      summary: 单会话 Agent 用量与运行历史
+      parameters: [{ name: session_id, in: query, required: true, schema: { type: integer } }]
+      responses:
+        "200": { description: OK }
+  /__admin/api/agent/metrics/global:
+    get: { summary: 全局 Agent 用量, responses: { "200": { description: OK } } }
+  /__admin/api/logs:
+    get:
+      summary: 应用日志
+      parameters:
+        - { name: level, in: query, schema: { type: string, enum: [warn, error] } }
+        - { name: limit, in: query, schema: { type: integer, maximum: 500 } }
+        - { name: offset, in: query, schema: { type: integer } }
+      responses:
+        "200": { description: OK }
+  /__admin/api/openapi.yaml:
+    get: { summary: 本 OpenAPI 文档, responses: { "200": { description: application/yaml } } }
+  /metrics:
+    get:
+      summary: Prometheus 指标（PHISH_METRICS_TOKEN 或本机回环）
+      security: []
+      responses:
+        "200": { description: text/plain }

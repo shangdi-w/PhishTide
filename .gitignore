@@ -1,0 +1,45 @@
+# Runtime data, secrets and local state
+data/
+data-*/
+backups/
+*.db
+*.db-wal
+*.db-shm
+secret.key
+admin.hash
+*.pem
+*.key
+*.crt
+background.img
+
+# Logs
+*.log
+
+# Build artifacts
+/dist/
+/phishsim
+phishsim.exe
+phishsim.exe~
+phishsim-linux-*
+*.exe
+*.dll
+
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Python cache (optional dev scripts)
+__pycache__/
+*.pyc
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Test screenshots and generated artifacts
+scripts/**/*.png
+scripts/**/*.jpg
+scripts/**/*.jpeg

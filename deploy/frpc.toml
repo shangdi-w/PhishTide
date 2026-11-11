@@ -1,0 +1,19 @@
+# 本机端：frpc.toml（Windows，放在 frp 解压目录或项目 deploy 目录）
+# 把 VPS_IP 换成你的 VPS 公网 IP
+serverAddr = "VPS_IP"
+serverPort = 7000
+
+auth.method = "token"
+auth.token = "CHANGE_ME_TOKEN"
+
+# 本机 phishsim 监听 8443，隧道映射到 VPS 的 127.0.0.1:8443
+[[proxies]]
+name = "phishsim"
+type = "tcp"
+localIP = "127.0.0.1"
+localPort = 8443
+remotePort = 8443
+
+log.to = "frpc.log"
+log.level = "info"
+log.maxDays = 7

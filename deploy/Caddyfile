@@ -1,0 +1,24 @@
+# VPS 端：/etc/caddy/Caddyfile
+# phish.example.com 换成你的域名；A 记录指向 VPS，且必须是「DNS only / 灰云」
+phish.example.com {
+	# 平台自身是自签证书，这里跳过对源站证书的校验
+	reverse_proxy 127.0.0.1:8443 {
+		transport http {
+			tls_insecure_skip_verify
+		}
+	}
+
+	# 后台可选加固：只允许你的固定公网 IP 访问 /__admin
+	# @admin path /__admin*
+	# handle @admin {
+	# 	@notme not remote_ip 203.0.113.10
+	# 	respond @notme 404
+	# 	reverse_proxy 127.0.0.1:8443 {
+	# 		transport http { tls_insecure_skip_verify }
+	# 	}
+	# }
+
+	log {
+		output file /var/log/caddy/phish-access.log
+	}
+}
