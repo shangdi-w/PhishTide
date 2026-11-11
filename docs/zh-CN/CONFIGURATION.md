@@ -56,6 +56,7 @@
 | `PHISH_RETENTION_DAYS` | `30` | 保留天数。 |
 | `PHISH_MAX_SEND_TARGETS` | `500` | 单次发送上限。 |
 | `PHISH_FAIL_ATTEMPTS` | `2` | 错误口令重试次数。 |
+| `PHISH_ROOT_REDIRECT` | `true` | 访问 `/` 时 302 跳转后台；`0` 恢复空白 404。 |
 | `PHISH_SECRET_KEY` | 自动生成 | 64 位 hex AES-256 密钥；空则用 `<data>/secret.key`。 |
 | `PHISH_DB_DRIVER` | `sqlite` | `sqlite` 或 `mysql`。 |
 | `PHISH_DB_DSN` | 空 | MySQL DSN，例如 `phish:pass@tcp(127.0.0.1:3306)/phishsim?charset=utf8mb4&parseTime=true&loc=Local`。 |

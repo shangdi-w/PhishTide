@@ -224,6 +224,12 @@ func (s *Server) serveHTTP(w http.ResponseWriter, r *http.Request) {
 		s.serveBackground(w, r)
 	case r.URL.Path == "/favicon.ico":
 		w.WriteHeader(http.StatusNoContent)
+	case r.URL.Path == "/":
+		if s.Cfg.RootRedirect {
+			http.Redirect(w, r, "/__admin", http.StatusFound)
+			return
+		}
+		s.notFound(w)
 	default:
 		s.notFound(w)
 	}

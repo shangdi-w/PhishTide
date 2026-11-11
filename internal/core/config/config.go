@@ -73,6 +73,11 @@ type Config struct {
 	// prompt and redirects on the first submission.
 	FailAttempts int
 
+	// RootRedirect makes GET / redirect to the console login instead of
+	// answering 404, so operators who open the bare host or IP land on the
+	// admin panel. Set PHISH_ROOT_REDIRECT=0 to restore the blank 404.
+	RootRedirect bool
+
 	// SecretKey is a 64-char hex AES-256 key for encrypting SMTP credentials at
 	// rest. Empty means the platform generates and persists a key under DataDir.
 	SecretKey string
@@ -132,6 +137,7 @@ func Default() *Config {
 		RetentionDays:  30,
 		MaxSendTargets: 500,
 		FailAttempts:   2,
+		RootRedirect:   true,
 	}
 }
 
@@ -173,6 +179,7 @@ func FromEnv() *Config {
 	c.RetentionDays = envInt("PHISH_RETENTION_DAYS", c.RetentionDays)
 	c.MaxSendTargets = envInt("PHISH_MAX_SEND_TARGETS", c.MaxSendTargets)
 	c.FailAttempts = envInt("PHISH_FAIL_ATTEMPTS", c.FailAttempts)
+	c.RootRedirect = envBool("PHISH_ROOT_REDIRECT", c.RootRedirect)
 	c.SecretKey = os.Getenv("PHISH_SECRET_KEY")
 	c.DBDriver = os.Getenv("PHISH_DB_DRIVER")
 	c.DBDSN = os.Getenv("PHISH_DB_DSN")

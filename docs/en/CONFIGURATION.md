@@ -57,6 +57,7 @@ Runtime settings edited in the console (public URL, LLM, bounce mailbox, log ret
 | `PHISH_RETENTION_DAYS` | `30` | Purge window. |
 | `PHISH_MAX_SEND_TARGETS` | `500` | Per-send cap. |
 | `PHISH_FAIL_ATTEMPTS` | `2` | Retry prompt count. |
+| `PHISH_ROOT_REDIRECT` | `true` | `GET /` redirects to the console; `0` restores a blank 404. |
 | `PHISH_SECRET_KEY` | generated | 64 hex chars AES-256 key. If empty, `<data>/secret.key` is used/created. |
 | `PHISH_DB_DRIVER` | `sqlite` | `sqlite` or `mysql`. |
 | `PHISH_DB_DSN` | empty | MySQL DSN, e.g. `phish:pass@tcp(127.0.0.1:3306)/phishsim?charset=utf8mb4&parseTime=true&loc=Local`. |
