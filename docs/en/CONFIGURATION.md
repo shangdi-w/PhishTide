@@ -104,7 +104,7 @@ Runtime settings edited in the console (public URL, LLM, bounce mailbox, log ret
 | `background_version/type` | Settings → Appearance | Uploaded background image metadata. |
 | `llm_base_url/model/plan_model/key/temperature` | Settings → Model | Key is AES-GCM sealed at rest. |
 | `bounce_imap_*` | Settings → Bounce | IMAP host/port/user/password/TLS/folder; password sealed. |
-| `log_retention_days` | Settings → Data maintenance | 0 = keep forever. |
+| `log_retention_days` | Logs page (“retention days”) | 0 = keep forever. |
 
 ## Sizing and limits
 

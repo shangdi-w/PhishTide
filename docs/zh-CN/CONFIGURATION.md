@@ -103,7 +103,7 @@
 | `background_version/type` | 设置 → 外观 | 背景图元数据。 |
 | `llm_*` | 设置 → 模型 | Key 加密存储。 |
 | `bounce_imap_*` | 设置 → 退信 | 密码加密存储。 |
-| `log_retention_days` | 设置 → 数据维护 | 0 = 永久保留。 |
+| `log_retention_days` | 日志页（「保留天数」） | 0 = 永久保留。 |
 
 ## 限额
 

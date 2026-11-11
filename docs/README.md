@@ -21,6 +21,9 @@
 - [架构](zh-CN/ARCHITECTURE.md)
 - [配置](zh-CN/CONFIGURATION.md)
 - [部署](zh-CN/DEPLOYMENT.md)
+- [编译与二进制](zh-CN/BUILD.md)
+- [一键部署小白教程](zh-CN/ONE-CLICK.md) — 一步一步，含截图
+- [后台功能图解](zh-CN/UI-GUIDE.md) — 每个菜单/设置页逐张截图说明
 - [控制台 Agent](zh-CN/AGENT.md)
 - [后台 API](zh-CN/API.md)
 - [安全](zh-CN/SECURITY.md)

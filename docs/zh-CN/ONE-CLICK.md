@@ -133,7 +133,7 @@ https://github.com/shangdi-w/PhishTide/releases
 ```bash
 cd /root
 curl -L -o phishsim-oneclick-linux-amd64.tar.gz \
-  https://github.com/shangdi-w/PhishTide/releases/download/v0.1.0/phishsim-oneclick-linux-amd64.tar.gz
+  https://github.com/shangdi-w/PhishTide/releases/latest/download/phishsim-oneclick-linux-amd64.tar.gz
 ```
 
 ARM64 服务器把文件名换成 `phishsim-oneclick-linux-arm64.tar.gz`。
@@ -372,7 +372,7 @@ systemctl start phishsim
 ```
 
 > 必须备份 `data/secret.key`，否则加密的密码/表单无法解密。
-> 也可以使用 `deploy/backup-sqlite.ps1`（Windows）或 `deploy/backup-mysql.sh`（MySQL）。
+> SQLite 模式下复制整个 `data/` 目录就是完整备份；用 MySQL 时可以配合 `deploy/backup-mysql.sh` 做定期 `mysqldump`（保留最近 14 份）。
 
 ---
 
@@ -412,6 +412,7 @@ sudo ./uninstall.sh --purge  # 连数据库、密钥、证书一起删
 4. nginx/Caddy 反向代理到 `127.0.0.1:8443`
 5. 后台「设置 → 对外地址」改成 `https://你的域名`
 6. 建议在 nginx/Caddy 里把 `/__admin` 限制为你的固定 IP 或 VPN
+7. 反代跑通后，在云安全组只放行 443（和必要的 22 等），关掉 8443 的公网访问，避免绕过反代直接访问后台
 
 详细配置见 `docs/zh-CN/DEPLOYMENT.md`。
 
@@ -463,7 +464,7 @@ sudo ./uninstall.sh --purge  # 连数据库、密钥、证书一起删
 
 ---
 
-## 16. 一键包里的文件
+## 16. 一键包与 Release 资产
 
 | 文件 | 作用 |
 | --- | --- |
@@ -471,12 +472,13 @@ sudo ./uninstall.sh --purge  # 连数据库、密钥、证书一起删
 | `install.sh` | 一键安装脚本 |
 | `uninstall.sh` | 卸载脚本 |
 | `README.md` | 英文/中文快速说明 |
-| `SHA256SUMS` | 校验和（在 Release 页面单独下载） |
+| `SHA256SUMS` | 校验和文件，**不在一键包内**，在 Release 页面和其他资产一起单独下载 |
 
 校验下载：
 
 ```bash
-sha256sum -c SHA256SUMS
+# 在同时放着 .tar.gz 和 SHA256SUMS 的目录里执行（解压前）
+sha256sum -c --ignore-missing SHA256SUMS
 ```
 
 ---
@@ -549,7 +551,7 @@ ssh -N -R 127.0.0.1:18081:127.0.0.1:8443 root@你的VPS
 
 ### 18.3 保持稳定
 
-- Windows 可以用任务计划程序开机运行 `ssh -N -R ...`，或用 `scripts/supervise.ps1`（开发仓库里）。
+- Windows 可以用任务计划程序开机运行 `ssh -N -R ...`。
 - Linux 可以用 `autossh -M 0 -N -R ...`。
 - 加 `-o ServerAliveInterval=30 -o ServerAliveCountMax=3` 让断线自动恢复。
 

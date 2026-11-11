@@ -29,7 +29,7 @@ required for the default setup.
 ```bash
 cd /root
 curl -L -o phishsim-oneclick-linux-amd64.tar.gz \
-  https://github.com/shangdi-w/PhishTide/releases/download/v0.1.0/phishsim-oneclick-linux-amd64.tar.gz
+  https://github.com/shangdi-w/PhishTide/releases/latest/download/phishsim-oneclick-linux-amd64.tar.gz
 ```
 
 2. Extract and run:

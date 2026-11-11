@@ -98,7 +98,7 @@ Directly on the server:
 ```bash
 cd /root
 curl -L -o phishsim-oneclick-linux-amd64.tar.gz \
-  https://github.com/shangdi-w/PhishTide/releases/download/v0.1.0/phishsim-oneclick-linux-amd64.tar.gz
+  https://github.com/shangdi-w/PhishTide/releases/latest/download/phishsim-oneclick-linux-amd64.tar.gz
 ```
 
 Or upload it from your PC:
@@ -166,7 +166,7 @@ The certificate is self-signed:
 
 Log in with `admin` and the generated password.
 
-![Login](images/ui/01-login.png)
+![Login](../zh-CN/images/ui/01-login.png)
 
 ---
 
@@ -176,7 +176,7 @@ Log in with `admin` and the generated password.
 
 **Settings → Public URL**: set `https://YOUR_SERVER_IP:8443` (or your domain). This is what generated links use. It takes effect immediately; changing servers/IPs does not require a restart.
 
-![Public URL](images/ui/16-settings-public-url.png)
+![Public URL](../zh-CN/images/ui/16-settings-public-url.png)
 
 ### 7.2 Target group
 
@@ -188,33 +188,33 @@ alice@example.com,Alice,Zhang,Marketing,Manager
 bob@example.com,Bob,Li,Engineering,Engineer
 ```
 
-![Groups](images/ui/04-groups.png)
+![Groups](../zh-CN/images/ui/04-groups.png)
 
 ### 7.3 Email template
 
 **Content → Email templates**: subject + HTML. Keep `{{.TrackingURL}}` and `{{.TrackingPixel}}` placeholders.
 
-![Templates](images/ui/06-templates.png)
+![Templates](../zh-CN/images/ui/06-templates.png)
 
 ### 7.4 Landing page
 
 **Content → Landing pages**: use a template, import HTML, clone a site, or create a reverse-proxy page. The form action must be `__SUBMIT_URL__`.
 
-![Pages](images/ui/05-pages.png)
+![Pages](../zh-CN/images/ui/05-pages.png)
 
 ### 7.5 Sending profile
 
 **Sending → Profiles**: SMTP host/port/username/password (authorization code for QQ/163). Use SSL on 465 or STARTTLS on 587. Run the SPF/DKIM/DMARC check below the form.
 
-![Profiles](images/ui/08-profiles.png)
+![Profiles](../zh-CN/images/ui/08-profiles.png)
 
 ### 7.6 Campaign and send
 
 **Campaigns** → fill name, template, landing page, profile, group → Create. Open the campaign → **Generate and send**. The send is two-phase: the operator must click **Confirm send**.
 
-![Campaigns](images/ui/02-campaigns.png)
+![Campaigns](../zh-CN/images/ui/02-campaigns.png)
 
-![Campaign detail](images/ui/15-campaign-detail.png)
+![Campaign detail](../zh-CN/images/ui/15-campaign-detail.png)
 
 ### 7.7 Results
 
@@ -367,9 +367,9 @@ After configuring **Settings → Model**, the agent can operate the platform:
 The agent calls 57 tools. Overwrites, high-risk writes and multi-step plans need
 operator confirmation; sending is two-phase (prepare, then **Confirm send**).
 
-![AI send result](images/ui/24b-ai-chat-result.png)
+![AI send result](../zh-CN/images/ui/24b-ai-chat-result.png)
 
-![AI-generated login page](images/ui/26-ai-page.png)
+![AI-generated login page](../zh-CN/images/ui/26-ai-page.png)
 
 See the Chinese screenshot walkthrough: [../zh-CN/UI-GUIDE.md#21-ai-一键发送实战](../zh-CN/UI-GUIDE.md#21-ai-一键发送实战).
 
