@@ -1,0 +1,32 @@
+services:
+  phishtide:
+    build:
+      context: .
+      args:
+        APT_MIRROR: ${APT_MIRROR:-}
+        GOPROXY: ${GOPROXY:-}
+        VERSION: ${PHISH_VERSION:-0.1.0}
+    image: phishtide:${PHISH_VERSION:-0.1.0}
+    container_name: phishtide
+    restart: unless-stopped
+    ports:
+      - "${PHISH_PORT:-8443}:8443"
+    environment:
+      PHISH_LISTEN: ":8443"
+      PHISH_DATA_DIR: "/data"
+      PHISH_ADMIN_USER: "${PHISH_ADMIN_USER:-admin}"
+      PHISH_ADMIN_PASS: "${PHISH_ADMIN_PASS:?set PHISH_ADMIN_PASS in .env first}"
+      PHISH_PUBLIC_URL: "${PHISH_PUBLIC_URL:-}"
+      PHISH_RETENTION_DAYS: "${PHISH_RETENTION_DAYS:-30}"
+      TZ: "${TZ:-Asia/Shanghai}"
+    volumes:
+      - phishtide-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-ksf", "https://127.0.0.1:8443/__admin/login", "-o", "/dev/null"]
+      interval: 30s
+      timeout: 5s
+      start_period: 20s
+      retries: 3
+
+volumes:
+  phishtide-data:

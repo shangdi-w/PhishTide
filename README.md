@@ -19,6 +19,15 @@
 
 The installer creates a systemd service with SQLite, generates an admin password, opens the firewall port and prints the admin URL. Full beginner guide: [docs/en/ONE-CLICK.md](docs/en/ONE-CLICK.md). The one-click bundle targets Ubuntu/Debian; the other release binaries can be run manually on Linux/Windows.
 
+**Docker quick start** (Chromium included, any platform):
+
+```bash
+git clone https://github.com/shangdi-w/PhishTide.git && cd PhishTide
+./deploy/docker/quickstart.sh      # or --binary ./phishsim-linux-amd64
+```
+
+See [docs/en/DOCKER.md](docs/en/DOCKER.md).
+
 > **Easiest option:** give a terminal-capable AI agent (Cursor, Codex, or another terminal-capable AI) your server SSH credentials and this repository URL, and ask it to run the one-click installer. Prompt template and safety notes: [docs/en/ONE-CLICK.md §14](docs/en/ONE-CLICK.md#14-let-an-ai-deploy-it-for-you).
 
 A self-hosted phishing simulation platform for **authorized security awareness training and internal phishing drills**. It covers the full loop: email generation, landing-page cloning, credential/form capture, tracking, risk reporting and CSV export.

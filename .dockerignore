@@ -1,0 +1,10 @@
+.git
+.github
+.gitignore
+dist
+*.zip
+*.sha256
+*.exe
+data
+.env
+docs/zh-CN/images

@@ -19,6 +19,15 @@
 
 安装脚本会创建 systemd 服务、默认使用 SQLite、生成后台密码、放行防火墙端口，并打印后台地址。小白详细教程：[docs/zh-CN/ONE-CLICK.md](docs/zh-CN/ONE-CLICK.md)。一键包面向 Ubuntu/Debian；其他平台的二进制可以手动运行。
 
+**Docker 一键启动**（内置 Chromium，跨平台）：
+
+```bash
+git clone https://github.com/shangdi-w/PhishTide.git && cd PhishTide
+./deploy/docker/quickstart.sh      # 或 --binary ./phishsim-linux-amd64
+```
+
+详见 [docs/zh-CN/DOCKER.md](docs/zh-CN/DOCKER.md)。
+
 > **最省事的方法：** 把服务器 SSH 账号密码和本仓库地址交给一个能执行命令的 AI（Cursor、Codex 等），让它按一键包装完。提示词模板和安全注意事项：[docs/zh-CN/ONE-CLICK.md 第 17 节](docs/zh-CN/ONE-CLICK.md#17-让-ai-帮你部署最省事)。
 
 用于**钓鱼研究 / 内部员工安全意识培训**的钓鱼演练平台，覆盖从邮件生成、落地页克隆、凭证捕获到统计导出的完整链路。

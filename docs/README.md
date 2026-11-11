@@ -9,6 +9,7 @@
 - [Building & binaries](en/BUILD.md) — release builds, platform labels, Ubuntu single-server
 - [One-click Ubuntu install](../deploy/oneclick/README.md) — extract, `sudo ./install.sh`, done
 - [One-click deployment guide](en/ONE-CLICK.md) — step-by-step for beginners
+- [Docker quick start](en/DOCKER.md) — `docker compose up -d`, Chromium included
 - [Console UI guide (Chinese, screenshots)](zh-CN/UI-GUIDE.md) — every screen explained
 - [Console AI Agent](en/AGENT.md) — 57 tools, safety gates, background jobs, subagents
 - [Admin API](en/API.md) — authentication, endpoints, SSE frames, curl examples
@@ -23,6 +24,7 @@
 - [部署](zh-CN/DEPLOYMENT.md)
 - [编译与二进制](zh-CN/BUILD.md)
 - [一键部署小白教程](zh-CN/ONE-CLICK.md) — 一步一步，含截图
+- [Docker 一键启动](zh-CN/DOCKER.md) — `docker compose up -d`，内置 Chromium
 - [后台功能图解](zh-CN/UI-GUIDE.md) — 每个菜单/设置页逐张截图说明
 - [控制台 Agent](zh-CN/AGENT.md)
 - [后台 API](zh-CN/API.md)

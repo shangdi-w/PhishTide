@@ -9,6 +9,7 @@
 - [编译与二进制](BUILD.md) — 发布构建、平台标注、Ubuntu 单机部署
 - [Ubuntu 一键部署](../../deploy/oneclick/README.md) — 解压后 `sudo ./install.sh`
 - [一键部署小白教程](ONE-CLICK.md) — 一步一步，含截图
+- [Docker 一键启动](DOCKER.md) — `docker compose up -d`，内置 Chromium
 - [后台功能图解](UI-GUIDE.md) — 每个菜单/设置页逐张截图说明
 - [控制台 Agent](AGENT.md) — 57 个工具、安全门禁、后台任务、子代理
 - [后台 API](API.md) — 认证、端点、SSE 帧、curl 示例
