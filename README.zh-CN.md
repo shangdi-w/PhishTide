@@ -7,26 +7,28 @@
 
 [English](README.md) | 简体中文
 
-**文档：** [一键部署](docs/zh-CN/ONE-CLICK.md) · [后台功能图解](docs/zh-CN/UI-GUIDE.md) · [配置](docs/zh-CN/CONFIGURATION.md) · [部署](docs/zh-CN/DEPLOYMENT.md) · [安全](docs/zh-CN/SECURITY.md)
+**文档：** [Docker 一键启动](docs/zh-CN/DOCKER.md) · [一键部署](docs/zh-CN/ONE-CLICK.md) · [后台功能图解](docs/zh-CN/UI-GUIDE.md) · [配置](docs/zh-CN/CONFIGURATION.md) · [部署](docs/zh-CN/DEPLOYMENT.md) · [安全](docs/zh-CN/SECURITY.md)
 
 > **只读仓库：** 访客可以查看、克隆和下载；只有作者可以推送，不接受访客提交的 PR。
 
-## 三步部署
+## Docker 一键启动（推荐）
 
-1. 从 [Releases](https://github.com/shangdi-w/PhishTide/releases) 下载 `phishsim-oneclick-linux-amd64.tar.gz`（ARM64 用 arm64 包）。
-2. 解压：`tar xzf phishsim-oneclick-linux-amd64.tar.gz && cd phishsim-oneclick-linux-amd64`
-3. 安装：`sudo ./install.sh`
-
-安装脚本会创建 systemd 服务、默认使用 SQLite、生成后台密码、放行防火墙端口，并打印后台地址。小白详细教程：[docs/zh-CN/ONE-CLICK.md](docs/zh-CN/ONE-CLICK.md)。一键包面向 Ubuntu/Debian；其他平台的二进制可以手动运行。
-
-**Docker 一键启动**（内置 Chromium，跨平台）：
+内置 Chromium 和中文字体，Linux / macOS / Windows（Docker Desktop）通用：
 
 ```bash
 git clone https://github.com/shangdi-w/PhishTide.git && cd PhishTide
 ./deploy/docker/quickstart.sh      # 或 --binary ./phishsim-linux-amd64
 ```
 
-详见 [docs/zh-CN/DOCKER.md](docs/zh-CN/DOCKER.md)。
+脚本会生成随机后台密码、构建镜像并启动容器，数据存在 Docker 卷里。完整教程（含中国网络镜像源、备份、升级、排障）：[docs/zh-CN/DOCKER.md](docs/zh-CN/DOCKER.md)。
+
+## 三步部署（Ubuntu/Debian 系统服务）
+
+1. 从 [Releases](https://github.com/shangdi-w/PhishTide/releases) 下载 `phishsim-oneclick-linux-amd64.tar.gz`（ARM64 用 arm64 包）。
+2. 解压：`tar xzf phishsim-oneclick-linux-amd64.tar.gz && cd phishsim-oneclick-linux-amd64`
+3. 安装：`sudo ./install.sh`
+
+安装脚本会创建 systemd 服务、默认使用 SQLite、生成后台密码、放行防火墙端口，并打印后台地址。小白详细教程：[docs/zh-CN/ONE-CLICK.md](docs/zh-CN/ONE-CLICK.md)。一键包面向 Ubuntu/Debian；其他平台的二进制可以手动运行。
 
 > **最省事的方法：** 把服务器 SSH 账号密码和本仓库地址交给一个能执行命令的 AI（Cursor、Codex 等），让它按一键包装完。提示词模板和安全注意事项：[docs/zh-CN/ONE-CLICK.md 第 17 节](docs/zh-CN/ONE-CLICK.md#17-让-ai-帮你部署最省事)。
 

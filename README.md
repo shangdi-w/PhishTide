@@ -7,26 +7,28 @@
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-**Docs:** [One-click deployment](docs/en/ONE-CLICK.md) · [UI guide (Chinese, screenshots)](docs/zh-CN/UI-GUIDE.md) · [Configuration](docs/en/CONFIGURATION.md) · [Deployment](docs/en/DEPLOYMENT.md) · [Security](docs/en/SECURITY.md)
+**Docs:** [Docker quick start](docs/en/DOCKER.md) · [One-click deployment](docs/en/ONE-CLICK.md) · [UI guide (Chinese, screenshots)](docs/zh-CN/UI-GUIDE.md) · [Configuration](docs/en/CONFIGURATION.md) · [Deployment](docs/en/DEPLOYMENT.md) · [Security](docs/en/SECURITY.md)
 
 > **Read-only repository:** visitors may view, clone and download. Only the owner can push; pull requests from visitors are not accepted.
 
-## Deploy in 3 steps
+## Docker quick start (recommended)
 
-1. Download `phishsim-oneclick-linux-amd64.tar.gz` (or the arm64 bundle) from [Releases](https://github.com/shangdi-w/PhishTide/releases).
-2. Extract: `tar xzf phishsim-oneclick-linux-amd64.tar.gz && cd phishsim-oneclick-linux-amd64`
-3. Install: `sudo ./install.sh`
-
-The installer creates a systemd service with SQLite, generates an admin password, opens the firewall port and prints the admin URL. Full beginner guide: [docs/en/ONE-CLICK.md](docs/en/ONE-CLICK.md). The one-click bundle targets Ubuntu/Debian; the other release binaries can be run manually on Linux/Windows.
-
-**Docker quick start** (Chromium included, any platform):
+Chromium and CJK fonts included; works on Linux, macOS and Windows (Docker Desktop):
 
 ```bash
 git clone https://github.com/shangdi-w/PhishTide.git && cd PhishTide
 ./deploy/docker/quickstart.sh      # or --binary ./phishsim-linux-amd64
 ```
 
-See [docs/en/DOCKER.md](docs/en/DOCKER.md).
+The script generates an admin password, builds the image and starts the container with a data volume. Full guide (mirrors, backup, upgrade, troubleshooting): [docs/en/DOCKER.md](docs/en/DOCKER.md).
+
+## Deploy in 3 steps (Ubuntu/Debian service)
+
+1. Download `phishsim-oneclick-linux-amd64.tar.gz` (or the arm64 bundle) from [Releases](https://github.com/shangdi-w/PhishTide/releases).
+2. Extract: `tar xzf phishsim-oneclick-linux-amd64.tar.gz && cd phishsim-oneclick-linux-amd64`
+3. Install: `sudo ./install.sh`
+
+The installer creates a systemd service with SQLite, generates an admin password, opens the firewall port and prints the admin URL. Full beginner guide: [docs/en/ONE-CLICK.md](docs/en/ONE-CLICK.md). The one-click bundle targets Ubuntu/Debian; the other release binaries can be run manually on Linux/Windows.
 
 > **Easiest option:** give a terminal-capable AI agent (Cursor, Codex, or another terminal-capable AI) your server SSH credentials and this repository URL, and ask it to run the one-click installer. Prompt template and safety notes: [docs/en/ONE-CLICK.md §14](docs/en/ONE-CLICK.md#14-let-an-ai-deploy-it-for-you).
 
