@@ -401,6 +401,8 @@
 6. 先 dry_run_campaign，再 send_campaign 发起发送确认。
 ```
 
+![AI 对话开头](images/ui/24a-ai-chat-top.png)
+
 AI 会自动调用这些工具：
 
 ```

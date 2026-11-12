@@ -33,6 +33,7 @@
 | `-smtp-tls` | `true` | 使用 STARTTLS（false 则 `tls_mode=none`）。 |
 | `-log-level` | `info` | `debug` / `info` / `warn` / `error`。 |
 | `-hash-pass` | — | 打印参数的 bcrypt 哈希后退出。 |
+| `-version` | — | 打印构建版本（`-ldflags "-X main.version=..."`）后退出。 |
 
 ## 环境变量
 

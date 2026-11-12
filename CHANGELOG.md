@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-12 — Documentation restructure
+
+- Reorganized `README.md` and `README.zh-CN.md` around one mirrored outline: quick start (Docker / one-click / source) → what it does → features → console → architecture → data model → configuration → cloning → agent → API → deployment → development → docs index.
+- Deep agent operational details stay in `docs/*/AGENT.md`; both READMEs now link there instead of duplicating the full reference.
+- Added `-version` to the flag tables in `docs/en/CONFIGURATION.md` and `docs/zh-CN/CONFIGURATION.md`.
+- Embedded the missing AI-chat opening screenshot (`24a-ai-chat-top.png`) in the console guide.
+- Re-verified: every internal link and anchor, `go build`, `go vet`, `go test ./...`, and the advertised 57-tool count against `internal/web/tools_registry.go`.
+
 ## 2026-11-10 — Initial open-source release
 
 ### Platform

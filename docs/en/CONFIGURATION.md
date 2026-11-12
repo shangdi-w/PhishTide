@@ -34,6 +34,7 @@ Runtime settings edited in the console (public URL, LLM, bounce mailbox, log ret
 | `-smtp-tls` | `true` | Use STARTTLS (when false, `tls_mode=none`). |
 | `-log-level` | `info` | `debug`, `info`, `warn`, `error`. |
 | `-hash-pass` | — | Print a bcrypt hash for the argument and exit. |
+| `-version` | — | Print the build version (`-ldflags "-X main.version=..."`) and exit. |
 
 ## Environment variables
 
